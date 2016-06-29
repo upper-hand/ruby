@@ -141,14 +141,44 @@ Airbnb also maintains a [JavaScript Style Guide][airbnb-javascript].
     ```
 
 * <a name="spaces-operators"></a>Use spaces around operators; after commas,
-    colons, and semicolons; and around `{` and before `}`.
+    colons, and semicolons. When defining blocks use spaces around
+    `{`, before `}`, and after a `do` with parameters. Do no use spaces after
+    `{` and before `}` when defining a Hash. The rationale for the difference
+    in whitespace for blocks and hashes is to allow one to immediately spot a
+    block vs. a Hash when scanning code.
     <sup>[[link](#spaces-operators)]</sup>
 
     ```ruby
     sum = 1 + 2
     a, b = 1, 2
     1 > 2 ? true : false; puts 'Hi'
+
+    ## spaces in single-line blocks
+    # bad
+    [1, 2, 3].each {|e| puts e}
+
+    #good
     [1, 2, 3].each { |e| puts e }
+
+    # bad
+    [1, 2, 3].each do|e|
+      # ... some code that would otherwise make the single-line block go past the line limit
+    end
+
+    # good
+    [1, 2, 3].each do |e|
+      # ... some code that would otherwise make the single-line block go past the line limit
+    end
+
+    #good
+    [1, 2, 3].each { |e| puts e }
+
+    ## spaces in Hash definitions
+    # bad
+    { a: 1, v: 2, foobar: :wild }
+
+    # good
+    {a: 1, v: 2, foobar: :wild}
     ```
 
 * <a name="no-space-before-commas"></a>Never include a space before a comma.
@@ -297,7 +327,7 @@ Airbnb also maintains a [JavaScript Style Guide][airbnb-javascript].
 
 ## Commenting
 
-> Though a pain to write, comments are absolutely vital to keeping our code
+> Though a pain to write, comments are sometimes vital to keeping our code
 > readable. The following rules describe what you should comment and where. But
 > remember: while comments are very important, the best code is
 > self-documenting. Giving sensible names to types and variables is much better
@@ -473,21 +503,22 @@ good-enough but not perfect.
 
 TODOs should include the string TODO in all caps, followed by the full name
 of the person who can best provide context about the problem referenced by the
-TODO, in parentheses. A colon is optional. A comment explaining what there is
-to do is required. The main purpose is to have a consistent TODO format that
-can be searched to find the person who can provide more details upon request.
-A TODO is not a commitment that the person referenced will fix the problem.
-Thus when you create a TODO, it is almost always your name that is given.
+TODO and the date it was added, in square brackets. A colon is optional.
+A comment explaining what there is to do is required. The main purpose is to
+have a consistent TODO format that can be searched to find the person who can
+provide more details upon request. A TODO is not a commitment that the person
+referenced will fix the problem. Thus when you create a TODO, it is almost always
+your name that is given.
 
 ```ruby
   # bad
-  # TODO(RS): Use proper namespacing for this constant.
+  # TODO[RS]: Use proper namespacing for this constant.
 
   # bad
-  # TODO(drumm3rz4lyfe): Use proper namespacing for this constant.
+  # TODO[drumm3rz4lyfe]: Use proper namespacing for this constant.
 
   # good
-  # TODO(Ringo Starr): Use proper namespacing for this constant.
+  # TODO[Ringo Starr:2016-01-01]: Use proper namespacing for this constant.
 ```
 
 ### Commented-out code
@@ -820,8 +851,8 @@ In either case:
 * <a name="single-line-blocks"></a>Prefer `{...}` over `do...end` for
     single-line blocks.  Avoid using `{...}` for multi-line blocks (multiline
     chaining is always ugly). Always use `do...end` for "control flow" and
-    "method definitions" (e.g. in Rakefiles and certain DSLs).  Avoid `do...end`
-    when chaining.<sup>[[link](#single-line-blocks)]</sup>
+    "method definitions" (e.g. in Rakefiles and certain DSLs).  Try to avoid
+    `do...end` when chaining.<sup>[[link](#single-line-blocks)]</sup>
 
     ```ruby
     names = ["Bozhidar", "Steve", "Sarah"]
